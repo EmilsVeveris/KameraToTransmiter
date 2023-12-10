@@ -1,0 +1,13 @@
+/*
+ * radio_target.h
+ *
+ *  Created on: Dec 8, 2023
+ *      Author: emils
+ */
+
+#ifndef BSP_COMPONENTS_SPIRIT1_RADIO_TARGET_H_
+#define BSP_COMPONENTS_SPIRIT1_RADIO_TARGET_H_
+
+
+
+#endif /* BSP_COMPONENTS_SPIRIT1_RADIO_TARGET_H_ */

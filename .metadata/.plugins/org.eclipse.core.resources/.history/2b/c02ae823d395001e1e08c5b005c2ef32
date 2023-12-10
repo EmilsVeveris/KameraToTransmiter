@@ -1,0 +1,89 @@
+/*
+ * Kamera.c
+ *
+ *  Created on: 2023. gada 27. janv.
+ *      Author: emils
+ */
+
+#include "Kamera.h"
+
+uint8_t spi_recv_buf[5];
+
+SPI_HandleTypeDef *spi_tmc;
+
+
+void INIT_SPI(SPI_HandleTypeDef *spiPointer)
+{
+	spi_tmc = spiPointer;
+}
+/*
+HAL_StatusTypeDef TMC5031_TransmitReceive(uint8_t *pTxData,
+	uint8_t *pRxData,
+	uint16_t Size,
+	uint32_t Timeout)
+{
+
+	HAL_StatusTypeDef temp;
+
+	HAL_GPIO_WritePin(GPIOE, MC_CS_Pin, GPIO_PIN_RESET);
+	temp = HAL_SPI_TransmitReceive(spi_tmc, pTxData, pRxData, Size, Timeout);
+	HAL_GPIO_WritePin(GPIOE, MC_CS_Pin, GPIO_PIN_SET);
+
+	return temp;
+}*/
+
+HAL_StatusTypeDef Kamera_TransmitReceive(uint8_t *pTxData,
+	uint8_t *pRxData,
+	uint16_t Size,
+	uint32_t Timeout)
+{
+
+	HAL_StatusTypeDef temp;
+
+	HAL_GPIO_WritePin(GPIOD, SPI2_CS_Pin, GPIO_PIN_RESET);
+	temp = HAL_SPI_TransmitReceive(spi_tmc, pTxData, pRxData, Size, Timeout);
+	HAL_GPIO_WritePin(GPIOD, SPI2_CS_Pin, GPIO_PIN_SET);
+
+	return temp;
+}
+
+uint8_t bus_read(int address)
+{
+	uint8_t value = 0;
+	uint8_t recive = 0;
+	HAL_StatusTypeDef temp;
+
+	//Kamera_TransmitReceive((uint8_t*) spi_buf, (uint8_t*) spi_recv_buf, 5, 1000);
+
+	/*HAL_GPIO_WritePin(GPIOD, SPI1_CS_Pin, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(spi_tmc, address, recive, 1, 1000);
+	temp = HAL_SPI_TransmitReceive(spi_tmc, 0x00, value, 1, 1000);
+	HAL_GPIO_WritePin(GPIOD, SPI1_CS_Pin, GPIO_PIN_SET);*/
+	return value;
+}
+
+
+uint8_t bus_write(int address,int value)
+{
+	uint8_t recive = 0;
+	HAL_GPIO_WritePin(GPIOD, SPI2_CS_Pin, GPIO_PIN_RESET);
+	HAL_SPI_TransmitReceive(spi_tmc, address, recive, 1, 1000);
+	HAL_SPI_TransmitReceive(spi_tmc, value, recive, 1, 1000);
+//	HAL_SPI_Transmit(spi_tmc, value, 1, 1000);
+	HAL_GPIO_WritePin(GPIOD, SPI2_CS_Pin, GPIO_PIN_SET);
+	return 1;
+}
+/*
+uint8_t read_reg(uint8_t addr)
+{
+	uint8_t data;
+	data = bus_read(addr );
+	return data;
+}
+*/
+/*
+void write_reg(uint8_t addr, uint8_t data)
+{
+	 bus_write(addr | 0x80, data);
+}
+*/
