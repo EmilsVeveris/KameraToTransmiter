@@ -18,6 +18,7 @@
 /* USER CODE END Header */
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
+#include "dma.h"
 #include "i2c.h"
 #include "spi.h"
 #include "usart.h"
@@ -134,11 +135,13 @@ int main(void)
 {
   /* USER CODE BEGIN 1 */
 	uint8_t payload[40];
+	uint8_t buffer_TX[40] = {0x00};
+	uint8_t buffer_RX[40];
 
 
 
 	uint8_t temp = 0;
-	uint8_t count = 0;
+	uint16_t count = 0;
 	uint8_t spi_recv_buf = 0;
 	uint8_t spi_buf;
 	uint8_t tempData, tempData_last;
@@ -164,6 +167,7 @@ int main(void)
 
   /* Initialize all configured peripherals */
   MX_GPIO_Init();
+  MX_DMA_Init();
   MX_USART2_UART_Init();
   MX_I2C1_Init();
   MX_SPI1_Init();
@@ -367,31 +371,32 @@ int main(void)
 
 		//Read FIFO data
 		spi_buf = 0x00;
-		do {
+		while(count < 200000){
 
-			tempData_last = tempData;
+			temp = HAL_SPI_TransmitReceive_DMA(&hspi2, buffer_TX,buffer_RX, 40);
+			//payload[count] = spi_recv_buf;
 
-			temp = HAL_SPI_TransmitReceive(&hspi2, &spi_buf, &spi_recv_buf, 1,
-					100);
-			payload[count] = spi_recv_buf;
-			if (tempData == 0x00) {
-				HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin); //Reset LCD screen
-			}
-			count = count + 1;
-			if (count == 40) {
-				xTxDoneFlag = S_RESET;
-				SPSGRF_StartTx(&payload, strlen(payload));
-				while (!xTxDoneFlag);
-				count = 0;
-				memset(payload, '\0', strlen(payload));
-			}
+			xTxDoneFlag = S_RESET;
+			SPSGRF_StartTx(buffer_RX, sizeof(buffer_RX));
+			while (!xTxDoneFlag)
+				;
+count = count+1;
+		/*	for (int var = 0; var < 40; ++var) {
 
-			tempData = spi_recv_buf;
-			if (!checkForFirstBit(tempData, tempData_last)) {
-				HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin); //Reset LCD screen
-			}
+				if (!checkForFirstBit(buffer_RX[var], tempData_last)) {
+					HAL_GPIO_TogglePin(LED_GREEN_GPIO_Port, LED_GREEN_Pin); //Reset LCD screen
+				}
 
-		} while (checkForLastBit(tempData, tempData_last));
+				if (!checkForLastBit(buffer_RX[var], tempData_last)) {
+					break;
+				}
+				tempData_last = buffer_RX[var];
+			}*/
+			//memset(payload, '\0', sizeof(payload));
+			memset(buffer_RX, '\0', sizeof(buffer_RX));
+
+		};
+		count = 0;
 
 		HAL_GPIO_WritePin(GPIOB, SPI2_CS_Pin, GPIO_PIN_SET);
 

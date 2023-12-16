@@ -145,6 +145,7 @@ StatusBytes RadioSpiWriteFifo(uint8_t cNbBytes, uint8_t* pcBuffer)
   RadioSpiCSLow();  // Puts the SPI chip select low to start the transaction
   HAL_SPI_TransmitReceive(radioSpi, tx_buff, rx_buff, 2, RADIO_SPI_TIMEOUT_MAX);
   HAL_SPI_Transmit(radioSpi, pcBuffer, cNbBytes, RADIO_SPI_TIMEOUT_MAX);
+ // HAL_SPI_Transmit_DMA(radioSpi, pcBuffer, cNbBytes);
   RadioSpiCSHigh(); // Puts the SPI chip select high to end the transaction
 
   SPI_EXIT_CRITICAL();

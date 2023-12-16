@@ -1,10 +1,56 @@
-22:28:19 **** Incremental Build of configuration Debug for project KameraToTransmiter ****
+18:10:08 **** Incremental Build of configuration Debug for project KameraToTransmiter ****
 make -j16 all 
+arm-none-eabi-gcc "../Core/Src/main.c" -mcpu=cortex-m0plus -std=gnu11 -g3 -DDEBUG -DUSE_HAL_DRIVER -DSTM32G071xx -c -I../Core/Inc -I../Drivers/STM32G0xx_HAL_Driver/Inc -I../Drivers/STM32G0xx_HAL_Driver/Inc/Legacy -I../Drivers/CMSIS/Device/ST/STM32G0xx/Include -I../Drivers/CMSIS/Include -I"C:/Users/emils/Desktop/Augstskola/Magistrs/Magistra darbs/STM32_kods/KameraToTransmiter/KameraToTransmiter/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"Core/Src/main.d" -MT"Core/Src/main.o" --specs=nano.specs -mfloat-abi=soft -mthumb -o "Core/Src/main.o"
+In file included from C:/Users/emils/Desktop/Augstskola/Magistrs/Magistra darbs/STM32_kods/KameraToTransmiter/KameraToTransmiter/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/SPIRIT_Config.h:68,
+                 from ../Core/Src/main.c:29:
+../Core/Src/main.c: In function 'main':
+C:/Users/emils/Desktop/Augstskola/Magistrs/Magistra darbs/STM32_kods/KameraToTransmiter/KameraToTransmiter/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/MCU_Interface.h:119:62: warning: implicit declaration of function 'RadioEnterShutdown'; did you mean 'EnterShutdown'? [-Wimplicit-function-declaration]
+  119 | #define SpiritEnterShutdown                                  RadioEnterShutdown
+      |                                                              ^~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:244:9: note: in expansion of macro 'SpiritEnterShutdown'
+  244 |         SpiritEnterShutdown();
+      |         ^~~~~~~~~~~~~~~~~~~
+C:/Users/emils/Desktop/Augstskola/Magistrs/Magistra darbs/STM32_kods/KameraToTransmiter/KameraToTransmiter/Drivers/BSP/Components/spirit1/SPIRIT1_Library/Inc/MCU_Interface.h:120:62: warning: implicit declaration of function 'RadioExitShutdown'; did you mean 'ExitShutdown'? [-Wimplicit-function-declaration]
+  120 | #define SpiritExitShutdown                                   RadioExitShutdown
+      |                                                              ^~~~~~~~~~~~~~~~~
+../Core/Src/main.c:245:9: note: in expansion of macro 'SpiritExitShutdown'
+  245 |         SpiritExitShutdown();
+      |         ^~~~~~~~~~~~~~~~~~
+../Core/Src/main.c:147:27: warning: unused variable 'tempData_last' [-Wunused-variable]
+  147 |         uint8_t tempData, tempData_last;
+      |                           ^~~~~~~~~~~~~
+../Core/Src/main.c:147:17: warning: unused variable 'tempData' [-Wunused-variable]
+  147 |         uint8_t tempData, tempData_last;
+      |                 ^~~~~~~~
+../Core/Src/main.c:143:17: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  143 |         uint8_t temp = 0;
+      |                 ^~~~
+../Core/Src/main.c:137:17: warning: unused variable 'payload' [-Wunused-variable]
+  137 |         uint8_t payload[40];
+      |                 ^~~~~~~
+../Core/Src/main.c: In function 'wrSensorReg16_8':
+../Core/Src/main.c:546:17: warning: variable 'ret' set but not used [-Wunused-but-set-variable]
+  546 |         uint8_t ret = 0;
+      |                 ^~~
+../Core/Src/main.c: In function 'write_reg':
+../Core/Src/main.c:559:17: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  559 |         uint8_t temp = 0;
+      |                 ^~~~
+../Core/Src/main.c: In function 'read_reg':
+../Core/Src/main.c:574:17: warning: variable 'temp' set but not used [-Wunused-but-set-variable]
+  574 |         uint8_t temp = 0;
+      |                 ^~~~
+arm-none-eabi-gcc -o "KameraToTransmiter.elf" @"objects.list"   -mcpu=cortex-m0plus -T"C:\Users\emils\Desktop\Augstskola\Magistrs\Magistra darbs\STM32_kods\KameraToTransmiter\KameraToTransmiter\STM32G071RBTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="KameraToTransmiter.map" -Wl,--gc-sections -static --specs=nano.specs -mfloat-abi=soft -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+Finished building target: KameraToTransmiter.elf
+ 
 arm-none-eabi-size  KameraToTransmiter.elf 
+arm-none-eabi-objdump -h -S KameraToTransmiter.elf  > "KameraToTransmiter.list"
    text	   data	    bss	    dec	    hex	filename
-  46916	     28	   2020	  48964	   bf44	KameraToTransmiter.elf
+  49632	     28	   2292	  51952	   caf0	KameraToTransmiter.elf
 Finished building: default.size.stdout
  
+Finished building: KameraToTransmiter.list
+ 
 
-22:28:19 Build Finished. 0 errors, 0 warnings. (took 460ms)
+18:10:09 Build Finished. 0 errors, 9 warnings. (took 897ms)
 
